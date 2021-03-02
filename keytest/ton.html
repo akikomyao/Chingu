@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>tontest</title>
+</head>
+<body>
+  <h2>What key is this?</h2>
+  <p>Please choose from "do, re, mi, fa, so, ra, si".</p>
+  <button onclick="stop()">Stop</button>
+  <button onclick="play()" id="play">Play</button>
+<input id = 'ton' type="text" placeholder="enter the key"name="" value="">
+<input type="button" onclick = "check()" value="check">
+
+<button type="button" onclick = "next()">next</button>
+<p id = "result"></p>
+<script >
+const sounds = shuffle([
+  {s:'sounds/do.mp3', a:'do'},
+ {s:'sounds/re.mp3', a:'re'},
+{s:'sounds/mi.mp3', a:'mi'},
+ {s:'sounds/fa.mp3', a:'fa'},
+ {s:'sounds/so.mp3', a:'so'},
+ {s:'sounds/ra.mp3', a:'ra'},
+ {s:'sounds/si.mp3', a:'si'},
+]);
+const result = document.getElementById('result');
+const ton = document.getElementById('ton');
+let tonValue = ton.value;
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[j], arr[i]] = [arr[i], arr[j]];
+    }
+    return arr;
+  }
+  let currentNum = 0;
+  let isAnswered;
+var music = new Audio();
+//let num =Math.floor(Math.random()*8);
+//let numMusik = [sounds[num].s, sounds[num].a];
+//let result = sounds[num].a;
+function setMusic(){
+
+music.src= sounds[currentNum].s;
+}
+
+  function play() {
+     setMusic();
+
+    music.load();
+    music.play();
+
+  }
+  const check = ()=>{
+
+     let tonValue = ton.value;
+     if(tonValue === sounds[currentNum].a){
+    result.innerHTML = 'good';
+  }else{
+    result.innerHTML = ` This key is ${sounds[currentNum].a}.
+    Please click <input type="button" onclick ="play()" value="here"> to listen to again.`;
+  }
+  }
+  const clearText = ()=>{
+    ton.value = '';
+    result.innerHTML = '';
+  }
+const next = ()=>{
+  clearText();
+   if(currentNum === sounds.length -1){
+    return
+  }else{
+        currentNum++;
+        setMusic();
+
+      }
+    }
+
+  function stop() {
+    music.pause();
+    music.currentTime = 0;
+  }
+
+
+  </script>
+</body>
+</html>
